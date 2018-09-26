@@ -12,12 +12,18 @@ const { env, jwtSecret, jwtExpirationInterval } = require('../../config/vars');
 * User Roles
 */
 const roles = ['user', 'admin'];
-
 /**
  * User Schema
  * @private
  */
 const userSchema = new mongoose.Schema({
+  username: {
+    type: String
+  },
+  companyName: {
+    type: String
+  },
+  expertise:[],
   email: {
     type: String,
     match: /^\S+@\S+\.\S+$/,
@@ -82,7 +88,7 @@ userSchema.pre('save', async function save(next) {
 userSchema.method({
   transform() {
     const transformed = {};
-    const fields = ['id', 'name', 'email', 'picture', 'role', 'createdAt'];
+    const fields = ['id', 'name', 'email', 'picture', 'role', 'createdAt', 'companyName', 'expertise', 'username'];
 
     fields.forEach((field) => {
       transformed[field] = this[field];
